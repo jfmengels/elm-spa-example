@@ -10,9 +10,10 @@ import Api.Endpoint as Endpoint exposing (Endpoint)
 import Avatar exposing (Avatar)
 import Browser
 import Browser.Navigation as Nav
-import Http exposing (Body, Expect)
-import Json.Decode as Decode exposing (Decoder, Value, decodeString, field, string)
-import Json.Decode.Pipeline as Pipeline exposing (optional, required)
+import CommentId exposing (..)
+import Http exposing (Body)
+import Json.Decode as Decode exposing (Decoder, Value, decodeString, field)
+import Json.Decode.Pipeline exposing (required)
 import Json.Encode as Encode
 import Url exposing (Url)
 import Username exposing (Username)
@@ -67,15 +68,6 @@ credDecoder =
 
 
 -- PERSISTENCE
-
-
-decode : Decoder (Cred -> viewer) -> Value -> Result Decode.Error viewer
-decode decoder value =
-    -- It's stored in localStorage as a JSON String;
-    -- first decode the Value as a String, then
-    -- decode that String as JSON.
-    Decode.decodeValue Decode.string value
-        |> Result.andThen (\str -> Decode.decodeString (Decode.field "user" (decoderFromCred decoder)) str)
 
 
 port onStoreChange : (Value -> msg) -> Sub msg
@@ -288,13 +280,3 @@ fromPair ( field, errors ) =
 
 
 -- LOCALSTORAGE KEYS
-
-
-cacheStorageKey : String
-cacheStorageKey =
-    "cache"
-
-
-credStorageKey : String
-credStorageKey =
-    "cred"
