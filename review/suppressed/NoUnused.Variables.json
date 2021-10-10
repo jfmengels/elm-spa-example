@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "automatically created by": "elm-review suppress",
+  "learn more": "elm-review suppress --help",
+  "suppressions": [
+    { "count": 12, "filePath": "src/Article/Feed.elm" },
+    { "count": 12, "filePath": "src/Page/Settings.elm" },
+    { "count": 12, "filePath": "src/PaginatedList.elm" },
+    { "count": 10, "filePath": "src/Page/Home.elm" },
+    { "count": 9, "filePath": "src/Article.elm" },
+    { "count": 9, "filePath": "src/Page/Article/Editor.elm" },
+    { "count": 9, "filePath": "src/Session.elm" },
+    { "count": 8, "filePath": "src/Author.elm" },
+    { "count": 8, "filePath": "src/Page/Login.elm" },
+    { "count": 8, "filePath": "src/Page/Register.elm" },
+    { "count": 7, "filePath": "src/Api.elm" },
+    { "count": 7, "filePath": "src/Page/Profile.elm" },
+    { "count": 6, "filePath": "src/Main.elm" },
+    { "count": 5, "filePath": "src/Page/Article.elm" },
+    { "count": 5, "filePath": "src/Viewer.elm" },
+    { "count": 4, "filePath": "src/Article/Comment.elm" },
+    { "count": 4, "filePath": "src/Timestamp.elm" },
+    { "count": 3, "filePath": "src/Page.elm" },
+    { "count": 3, "filePath": "src/Profile.elm" },
+    { "count": 2, "filePath": "src/Loading.elm" },
+    { "count": 2, "filePath": "src/Page/NotFound.elm" },
+    { "count": 2, "filePath": "src/Route.elm" },
+    { "count": 2, "filePath": "tests/RoutingTests.elm" },
+    { "count": 1, "filePath": "src/Article/Tag.elm" },
+    { "count": 1, "filePath": "src/Asset.elm" }
+  ]
+}
