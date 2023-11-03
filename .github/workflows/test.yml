@@ -37,6 +37,13 @@ jobs:
         path: ~/.elm
         key: elm-${{ hashFiles('elm.json', 'elm-tooling.json', 'review/elm.json') }}
 
+    - name: Cache ~/.elm
+      uses: actions/cache@v3
+      with:
+        path: elm-stuff/generated-code/jfmengels/elm-review/
+        # TODO Ideally we would probably base the hash on the version of elm-review, not the entire package.json
+        key: elm-review-${{ hashFiles('elm.json', 'review/elm.json', 'package.json') }}
+
     - name: Install npm dependencies
       if: steps.cache-node_modules.outputs.cache-hit != 'true'
       env:
@@ -57,6 +64,9 @@ jobs:
     # skipping the step doesn’t save much time.
     - name: elm-tooling install
       run: npx --no-install elm-tooling install
+
+    - name: Prepare elm-review
+      run: npx elm-review prepare-offline
 
     - name: Run tests
       run: npx elm-test
