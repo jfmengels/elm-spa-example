@@ -37,13 +37,6 @@ jobs:
         path: ~/.elm
         key: elm-${{ hashFiles('elm.json', 'elm-tooling.json', 'review/elm.json') }}
 
-    - name: Cache ~/.elm
-      uses: actions/cache@v3
-      with:
-        path: elm-stuff/generated-code/jfmengels/elm-review/
-        # TODO Ideally we would probably base the hash on the version of elm-review, not the entire package.json
-        key: elm-review-${{ hashFiles('elm.json', 'review/elm.json', 'package.json') }}
-
     - name: Install npm dependencies
       if: steps.cache-node_modules.outputs.cache-hit != 'true'
       env:
@@ -65,7 +58,17 @@ jobs:
     - name: elm-tooling install
       run: npx --no-install elm-tooling install
 
+    - name: Cache elm-review
+      # TODO I'm thinking the cache size could increase endlessly because we don't clean up the `file-cache` folder between runs
+      # That folder gets a new entry everytime a file is parsed, but that never gets cleaned up.
+      uses: actions/cache@v3
+      with:
+        path: elm-stuff/generated-code/jfmengels/elm-review/
+        # TODO Ideally we would probably base the hash on the version of elm-review, not the entire package.json
+        key: elm-review-${{ hashFiles('elm.json', 'review/elm.json', 'package.json') }}
+
     - name: Prepare elm-review
+      if: steps.cache-elm-review.outputs.cache-hit != 'true'
       run: npx elm-review prepare-offline
 
     - name: Run tests
