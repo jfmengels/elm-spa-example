@@ -5,7 +5,7 @@ import Article.Slug exposing (Slug)
 import Avatar exposing (Avatar)
 import Browser exposing (Document)
 import Browser.Navigation as Nav
-import Html exposing (..)
+import Html
 import Json.Decode as Decode exposing (Value)
 import Page exposing (Page)
 import Page.Article as Article
