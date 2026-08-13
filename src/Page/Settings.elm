@@ -18,7 +18,7 @@ import Profile exposing (Profile)
 import Route
 import Session exposing (Session)
 import Task
-import Username as Username exposing (Username)
+import Username exposing (Username)
 import Viewer exposing (Viewer)
 
 

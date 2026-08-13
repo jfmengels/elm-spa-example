@@ -28,7 +28,7 @@ import Json.Encode as Encode
 import Markdown
 import Profile exposing (Profile)
 import Time
-import Username as Username exposing (Username)
+import Username exposing (Username)
 import Viewer exposing (Viewer)
 
 

@@ -160,6 +160,9 @@ changeRouteTo maybeRoute model =
     let
         session =
             toSession model
+
+        _ =
+            batchUpdate
     in
     case maybeRoute of
         Nothing ->
@@ -202,6 +205,21 @@ changeRouteTo maybeRoute model =
         Just (Route.Article slug) ->
             Article.init session slug
                 |> updateWith Article GotArticleMsg model
+
+
+batchUpdate : List Msg -> Model -> ( Model, Cmd Msg )
+batchUpdate msgs initialModel =
+    List.foldl
+        (\msg ( model, cmds ) ->
+            let
+                ( newModel, newCmd ) =
+                    update msg model
+            in
+            ( newModel, newCmd :: cmds )
+        )
+        ( initialModel, [] )
+        msgs
+        |> Tuple.mapSecond Cmd.batch
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
