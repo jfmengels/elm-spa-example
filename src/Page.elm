@@ -1,5 +1,6 @@
 module Page exposing (Page(..), view, viewErrors)
 
+import Main
 import Avatar
 import Browser exposing (Document)
 import Html exposing (Html, a, button, div, footer, i, img, li, nav, p, span, text, ul)
