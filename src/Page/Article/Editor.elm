@@ -3,22 +3,19 @@ module Page.Article.Editor exposing (Model, Msg, initEdit, initNew, subscription
 import Api exposing (Cred)
 import Api.Endpoint as Endpoint
 import Article exposing (Article, Full)
-import Article.Body exposing (Body)
+import Article.Body
 import Article.Slug as Slug exposing (Slug)
-import Browser.Navigation as Nav
 import Html exposing (..)
-import Html.Attributes exposing (attribute, class, disabled, href, id, placeholder, type_, value)
+import Html.Attributes exposing (attribute, class, disabled, placeholder, value)
 import Html.Events exposing (onInput, onSubmit)
 import Http
 import Json.Decode as Decode
 import Json.Encode as Encode
 import Loading
 import Page
-import Profile exposing (Profile)
 import Route
 import Session exposing (Session)
-import Task exposing (Task)
-import Time
+import Task
 
 
 
@@ -143,13 +140,13 @@ viewAuthenticated cred model =
                 LoadingSlowly _ ->
                     [ Loading.icon ]
 
-                Saving slug form ->
+                Saving _ form ->
                     [ viewForm cred form (editArticleSaveButton [ disabled True ]) ]
 
                 Creating form ->
                     [ viewForm cred form (newArticleSaveButton [ disabled True ]) ]
 
-                Editing slug problems form ->
+                Editing _ problems form ->
                     [ viewProblems problems
                     , viewForm cred form (editArticleSaveButton [])
                     ]
@@ -277,8 +274,8 @@ update msg model =
                 |> Route.replaceUrl (Session.navKey model.session)
             )
 
-        CompletedCreate (Err error) ->
-            ( { model | status = savingError error model.status }
+        CompletedCreate (Err _) ->
+            ( { model | status = savingError model.status }
             , Cmd.none
             )
 
@@ -288,12 +285,12 @@ update msg model =
                 |> Route.replaceUrl (Session.navKey model.session)
             )
 
-        CompletedEdit (Err error) ->
-            ( { model | status = savingError error model.status }
+        CompletedEdit (Err _) ->
+            ( { model | status = savingError model.status }
             , Cmd.none
             )
 
-        CompletedArticleLoad (Err ( slug, error )) ->
+        CompletedArticleLoad (Err ( slug, _ )) ->
             ( { model | status = LoadingFailed slug }
             , Cmd.none
             )
@@ -375,8 +372,8 @@ save cred status =
             ( status, Cmd.none )
 
 
-savingError : Http.Error -> Status -> Status
-savingError error status =
+savingError : Status -> Status
+savingError status =
     let
         problems =
             [ ServerError "Error saving article" ]

@@ -8,26 +8,25 @@ import Api.Endpoint as Endpoint
 import Article exposing (Article, Full, Preview)
 import Article.Body exposing (Body)
 import Article.Comment as Comment exposing (Comment)
-import Article.Slug as Slug exposing (Slug)
+import Article.Slug exposing (Slug)
 import Author exposing (Author(..), FollowedAuthor, UnfollowedAuthor)
 import Avatar
-import Browser.Navigation as Nav
 import CommentId exposing (CommentId)
 import Html exposing (..)
-import Html.Attributes exposing (attribute, class, disabled, href, id, placeholder, value)
+import Html.Attributes exposing (attribute, class, disabled, href, placeholder, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Http
 import Json.Decode as Decode
 import Loading
 import Log
 import Page
-import Profile exposing (Profile)
+import Profile
 import Route
 import Session exposing (Session)
-import Task exposing (Task)
+import Task
 import Time
 import Timestamp
-import Username exposing (Username)
+import Username
 import Viewer exposing (Viewer)
 
 
@@ -344,7 +343,7 @@ update msg model =
         CompletedLoadArticle (Ok article) ->
             ( { model | article = Loaded article }, Cmd.none )
 
-        CompletedLoadArticle (Err error) ->
+        CompletedLoadArticle (Err _) ->
             ( { model | article = Failed }
             , Log.error
             )
@@ -352,13 +351,13 @@ update msg model =
         CompletedLoadComments (Ok comments) ->
             ( { model | comments = Loaded ( Editing "", comments ) }, Cmd.none )
 
-        CompletedLoadComments (Err error) ->
+        CompletedLoadComments (Err _) ->
             ( { model | article = Failed }, Log.error )
 
         CompletedFavoriteChange (Ok newArticle) ->
             ( { model | article = Loaded newArticle }, Cmd.none )
 
-        CompletedFavoriteChange (Err error) ->
+        CompletedFavoriteChange (Err _) ->
             ( { model | errors = Api.addServerError model.errors }
             , Log.error
             )
@@ -383,7 +382,7 @@ update msg model =
                 _ ->
                     ( model, Log.error )
 
-        CompletedFollowChange (Err error) ->
+        CompletedFollowChange (Err _) ->
             ( { model | errors = Api.addServerError model.errors }
             , Log.error
             )
@@ -403,7 +402,7 @@ update msg model =
 
         ClickedPostComment cred slug ->
             case model.comments of
-                Loaded ( Editing "", comments ) ->
+                Loaded ( Editing "", _ ) ->
                     -- No posting empty comments!
                     -- We don't use Log.error here because this isn't an error,
                     -- it just doesn't do anything.
@@ -432,7 +431,7 @@ update msg model =
                 _ ->
                     ( model, Log.error )
 
-        CompletedPostComment (Err error) ->
+        CompletedPostComment (Err _) ->
             ( { model | errors = Api.addServerError model.errors }
             , Log.error
             )
@@ -454,7 +453,7 @@ update msg model =
                 _ ->
                     ( model, Log.error )
 
-        CompletedDeleteComment id (Err error) ->
+        CompletedDeleteComment _ (Err _) ->
             ( { model | errors = Api.addServerError model.errors }
             , Log.error
             )
@@ -468,7 +467,7 @@ update msg model =
         CompletedDeleteArticle (Ok ()) ->
             ( model, Route.replaceUrl (Session.navKey model.session) Route.Home )
 
-        CompletedDeleteArticle (Err error) ->
+        CompletedDeleteArticle (Err _) ->
             ( { model | errors = Api.addServerError model.errors }
             , Log.error
             )
@@ -564,10 +563,10 @@ favoriteButton cred article =
             [ text (" Favorite Article (" ++ String.fromInt favoritesCount ++ ")") ]
     in
     if favorited then
-        Article.unfavoriteButton cred (ClickedUnfavorite cred slug body) [] kids
+        Article.unfavoriteButton (ClickedUnfavorite cred slug body) [] kids
 
     else
-        Article.favoriteButton cred (ClickedFavorite cred slug body) [] kids
+        Article.favoriteButton (ClickedFavorite cred slug body) [] kids
 
 
 deleteButton : Cred -> Article a -> Html Msg

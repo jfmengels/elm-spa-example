@@ -1,13 +1,12 @@
 module Main exposing (main)
 
-import Api exposing (Cred)
+import Api
 import Article.Slug exposing (Slug)
-import Avatar exposing (Avatar)
 import Browser exposing (Document)
 import Browser.Navigation as Nav
-import Html exposing (..)
-import Json.Decode as Decode exposing (Value)
-import Page exposing (Page)
+import Html
+import Json.Decode exposing (Value)
+import Page
 import Page.Article as Article
 import Page.Article.Editor as Editor
 import Page.Blank as Blank
@@ -19,8 +18,6 @@ import Page.Register as Register
 import Page.Settings as Settings
 import Route exposing (Route)
 import Session exposing (Session)
-import Task
-import Time
 import Url exposing (Url)
 import Username exposing (Username)
 import Viewer exposing (Viewer)
@@ -165,43 +162,40 @@ changeRouteTo maybeRoute model =
         Nothing ->
             ( NotFound session, Cmd.none )
 
-        Just Route.Root ->
-            ( model, Route.replaceUrl (Session.navKey session) Route.Home )
-
         Just Route.Logout ->
             ( model, Api.logout )
 
         Just Route.NewArticle ->
             Editor.initNew session
-                |> updateWith (Editor Nothing) GotEditorMsg model
+                |> updateWith (Editor Nothing) GotEditorMsg
 
         Just (Route.EditArticle slug) ->
             Editor.initEdit session slug
-                |> updateWith (Editor (Just slug)) GotEditorMsg model
+                |> updateWith (Editor (Just slug)) GotEditorMsg
 
         Just Route.Settings ->
             Settings.init session
-                |> updateWith Settings GotSettingsMsg model
+                |> updateWith Settings GotSettingsMsg
 
         Just Route.Home ->
             Home.init session
-                |> updateWith Home GotHomeMsg model
+                |> updateWith Home GotHomeMsg
 
         Just Route.Login ->
             Login.init session
-                |> updateWith Login GotLoginMsg model
+                |> updateWith Login GotLoginMsg
 
         Just Route.Register ->
             Register.init session
-                |> updateWith Register GotRegisterMsg model
+                |> updateWith Register GotRegisterMsg
 
         Just (Route.Profile username) ->
             Profile.init session username
-                |> updateWith (Profile username) GotProfileMsg model
+                |> updateWith (Profile username) GotProfileMsg
 
         Just (Route.Article slug) ->
             Article.init session slug
-                |> updateWith Article GotArticleMsg model
+                |> updateWith Article GotArticleMsg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -237,44 +231,44 @@ update msg model =
 
         ( GotSettingsMsg subMsg, Settings settings ) ->
             Settings.update subMsg settings
-                |> updateWith Settings GotSettingsMsg model
+                |> updateWith Settings GotSettingsMsg
 
         ( GotLoginMsg subMsg, Login login ) ->
             Login.update subMsg login
-                |> updateWith Login GotLoginMsg model
+                |> updateWith Login GotLoginMsg
 
         ( GotRegisterMsg subMsg, Register register ) ->
             Register.update subMsg register
-                |> updateWith Register GotRegisterMsg model
+                |> updateWith Register GotRegisterMsg
 
         ( GotHomeMsg subMsg, Home home ) ->
             Home.update subMsg home
-                |> updateWith Home GotHomeMsg model
+                |> updateWith Home GotHomeMsg
 
         ( GotProfileMsg subMsg, Profile username profile ) ->
             Profile.update subMsg profile
-                |> updateWith (Profile username) GotProfileMsg model
+                |> updateWith (Profile username) GotProfileMsg
 
         ( GotArticleMsg subMsg, Article article ) ->
             Article.update subMsg article
-                |> updateWith Article GotArticleMsg model
+                |> updateWith Article GotArticleMsg
 
         ( GotEditorMsg subMsg, Editor slug editor ) ->
             Editor.update subMsg editor
-                |> updateWith (Editor slug) GotEditorMsg model
+                |> updateWith (Editor slug) GotEditorMsg
 
         ( GotSession session, Redirect _ ) ->
             ( Redirect session
             , Route.replaceUrl (Session.navKey session) Route.Home
             )
 
-        ( _, _ ) ->
+        _ ->
             -- Disregard messages that arrived for the wrong page.
             ( model, Cmd.none )
 
 
-updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
-updateWith toModel toMsg model ( subModel, subCmd ) =
+updateWith : (subModel -> Model) -> (subMsg -> Msg) -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateWith toModel toMsg ( subModel, subCmd ) =
     ( toModel subModel
     , Cmd.map toMsg subCmd
     )
