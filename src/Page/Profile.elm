@@ -9,8 +9,8 @@ import Article exposing (Article, Preview)
 import Article.Feed as Feed
 import Author exposing (Author(..), FollowedAuthor, UnfollowedAuthor)
 import Avatar exposing (Avatar)
-import Html exposing (Html, div, h4, img, p, text)
-import Html.Attributes exposing (class)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Http
 import Loading
 import Log

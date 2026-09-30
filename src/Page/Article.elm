@@ -13,7 +13,7 @@ import Author exposing (Author(..), FollowedAuthor, UnfollowedAuthor)
 import Avatar
 import Browser.Navigation as Nav
 import CommentId exposing (CommentId)
-import Html exposing (Html, a, button, div, h1, hr, i, img, p, span, text, textarea)
+import Html exposing (..)
 import Html.Attributes exposing (attribute, class, disabled, href, id, placeholder, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Http

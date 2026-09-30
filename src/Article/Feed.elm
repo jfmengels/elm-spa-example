@@ -6,7 +6,7 @@ import Article.Slug as ArticleSlug exposing (Slug)
 import Article.Tag as Tag exposing (Tag)
 import Author
 import Avatar exposing (Avatar)
-import Html exposing (Attribute, Html, a, div, h1, img, li, p, span, text, ul)
+import Html exposing (..)
 import Html.Attributes exposing (attribute, class, classList, href, id, placeholder, src)
 import Html.Events exposing (onClick)
 import Http

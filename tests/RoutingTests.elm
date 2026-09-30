@@ -5,10 +5,9 @@ import Article.Slug as Slug exposing (Slug)
 import Expect exposing (Expectation)
 import Json.Decode as Decode exposing (decodeString)
 import Route exposing (Route(..))
-import Test exposing (Test, describe, test)
+import Test exposing (..)
 import Url exposing (Url)
 import Username exposing (Username)
-
 
 
 -- TODO need to add lots more tests!

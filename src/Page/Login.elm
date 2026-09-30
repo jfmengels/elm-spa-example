@@ -5,8 +5,8 @@ module Page.Login exposing (Model, Msg, init, subscriptions, toSession, update, 
 
 import Api exposing (Cred)
 import Browser.Navigation as Nav
-import Html exposing (Html, a, button, div, fieldset, h1, input, li, p, text, ul)
-import Html.Attributes exposing (class, placeholder, type_, value)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onSubmit)
 import Http
 import Json.Decode as Decode exposing (Decoder, decodeString, field, string)

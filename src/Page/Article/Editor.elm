@@ -6,7 +6,7 @@ import Article exposing (Article, Full)
 import Article.Body exposing (Body)
 import Article.Slug as Slug exposing (Slug)
 import Browser.Navigation as Nav
-import Html exposing (Attribute, Html, button, div, fieldset, input, li, text, textarea, ul)
+import Html exposing (..)
 import Html.Attributes exposing (attribute, class, disabled, href, id, placeholder, type_, value)
 import Html.Events exposing (onInput, onSubmit)
 import Http
