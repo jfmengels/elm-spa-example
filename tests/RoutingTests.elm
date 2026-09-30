@@ -3,10 +3,8 @@ module RoutingTests exposing (..)
 import Article
 import Article.Slug exposing (Slug)
 import Expect
-import Json.Decode as Decode exposing (decodeString)
 import Route exposing (Route(..))
 import Test exposing (..)
-import Url exposing (Url)
 import Username exposing (Username)
 
 
